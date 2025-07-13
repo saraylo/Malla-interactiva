@@ -1,57 +1,15 @@
-// Aquí defines los cursos y qué depende de qué
-const cursos = [
-  { id: "eco", nombre: "Fundamentos de Economía", desbloquea: ["micro", "macro"] },
-  { id: "adm", nombre: "Fundamentos de la Administración", desbloquea: ["admf"] },
-  { id: "mate", nombre: "Matemática Fundamental", desbloquea: ["calc1"] },
-  { id: "micro", nombre: "Microeconomía", desbloquea: ["macro"] },
-  { id: "calc1", nombre: "Cálculo I", desbloquea: ["matf"] },
-  { id: "admf", nombre: "Administración Financiera", desbloquea: ["gerestr"] },
-  { id: "matf", nombre: "Matemática Financiera", desbloquea: ["valemp"] },
-  { id: "macro", nombre: "Macroeconomía", desbloquea: ["modeldes"] },
-  { id: "valemp", nombre: "Valoración de Empresas", desbloquea: [] },
-  { id: "gerestr", nombre: "Gerencia Estratégica", desbloquea: [] },
-  { id: "modeldes", nombre: "Modelos de Desarrollo Económico", desbloquea: [] },
-];
+// script.js
 
-const contenedor = document.querySelector(".semestres");
+const malla = document.getElementById("malla");
 
-cursos.forEach(curso => {
-  const div = document.createElement("div");
-  div.className = "curso locked";
-  div.id = curso.id;
+const semestres = [ { nombre: "Semestre I", materias: [ "Fundamentos de Contabilidad", "Fundamentos de la Administración", "Matemática Fundamental", "Fundamentos de Economía", "Fundamentos de Mercadeo", "Introducción a los Negocios Internacionales" ] }, { nombre: "Semestre II", materias: [ "Probabilidad y Estadística", "Microeconomía", "Cálculo I", "Acuerdos Comerciales", "Introducción a las Finanzas" ] }, { nombre: "Semestre III", materias: [ "Inglés I", "Estadística Aplicada", "Macroeconomía", "Logística y Distribución Física Internacional", "Matemática Financiera" ] }, { nombre: "Semestre IV", materias: [ "Inglés II", "Instrumentos de Renta", "Gestión de Importaciones y Exportaciones", "Contratación Internacional", "Administración Financiera", "Creación Empresarial" ] }, { nombre: "Semestre V", materias: [ "Inglés III", "Responsabilidad Social y Corporativa", "Régimen Aduanero y Cambiario", "Costos", "Finanzas Corporativas", "Mercados de Capitales" ] }, { nombre: "Semestre VI", materias: [ "Inglés IV", "Razonamiento Cuantitativo", "Constitución Política", "Presupuesto", "Gerencia de Negocios Internacionales" ] }, { nombre: "Semestre VII", materias: [ "Electiva I", "Modelos de Desarrollo Económico", "Formulación y Evaluación de Proyectos", "Valoración de Empresas", "Inglés V" ] }, { nombre: "Semestre VIII", materias: [ "Electiva II", "Gerencia Estratégica", "Gerencia de Proyectos", "Trabajo de Grado I" ] }, { nombre: "Semestre IX", materias: [ "Electiva III", "Práctica Empresarial", "Trabajo de Grado II" ] } ];
 
-  const titulo = document.createElement("h3");
-  titulo.textContent = curso.nombre;
+let aprobadas = [];
 
-  const boton = document.createElement("button");
-  boton.textContent = "Aprobar";
-  boton.disabled = true;
-  boton.addEventListener("click", () => aprobarCurso(curso.id));
+function crearMalla() { semestres.forEach((sem, index) => { const contenedor = document.createElement("div"); contenedor.className = "semestre";
 
-  div.appendChild(titulo);
-  div.appendChild(boton);
-  contenedor.appendChild(div);
-});
+const titulo = document.createElement("h2");
+titulo.textContent = sem.nombre;
+contenedor.appendChild(titulo);
 
-// Al iniciar desbloqueamos los cursos iniciales
-function inicializar() {
-  ["eco", "adm", "mate"].forEach(id => desbloquear(id));
-}
-inicializar();
-
-function aprobarCurso(id) {
-  const curso = document.getElementById(id);
-  curso.classList.remove("locked");
-  curso.querySelector("button").disabled = true;
-
-  const cursoData = cursos.find(c => c.id === id);
-  cursoData.desbloquea.forEach(d => desbloquear(d));
-}
-
-function desbloquear(id) {
-  const curso = document.getElementById(id);
-  if (curso) {
-    curso.classList.remove("locked");
-    curso.querySelector("button").disabled = false;
-  }
-}
+sem.materias.forEach(materia => {
